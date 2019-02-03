@@ -1,15 +1,9 @@
 # imports
 import time
+from datetime import datetime
 import pygame
 from osascript import osascript
-
-
-
-
-import random
-
-
-
+from subprocess import check_output
 
 # config
 alarmSoundFile = 'leroy.mp3'
@@ -20,7 +14,9 @@ alarmVolume = 30
 # functions
 def isCharging():
 	# returns True if Laptop is currently charging, else False
-	return random.choice([True, False])
+	out = check_output(["pmset", "-g", "batt"])
+	power = str(out).split('Now drawing from ')[1].split('\\n')[0].strip("'")
+	return True if power = 'AC Power' else False
 
 def setVolume(vol, mut):
 	# restores Volume to input values (vol, mut as Strings)
@@ -44,19 +40,14 @@ def playMP3(file):
 	while pygame.mixer.music.get_busy(): 
 		pygame.time.Clock().tick(10)
 
-
-
 def soundAlarm():
 	# plays the alarm sound specified in config
 	setVolume(alarmVolume, 'false')
 
 	# sound alarm
 	playMP3(alarmSoundFile)
-
-	print('alarm')
-
+	print('alarm @ %sh' % datetime.now().strftime('%H:%M'))
 	# end soundAlarm
-
 
 def surveillance():
 	# loop every XXs, check if cable still plugged in, alarm if not
