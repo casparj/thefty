@@ -7,7 +7,7 @@ from subprocess import check_output
 
 # config
 alarmSoundFile = 'leroy.mp3'
-alarmVolume = 30
+alarmVolume = 60
 
 
 
@@ -16,7 +16,7 @@ def isCharging():
 	# returns True if Laptop is currently charging, else False
 	out = check_output(["pmset", "-g", "batt"])
 	power = str(out).split('Now drawing from ')[1].split('\\n')[0].strip("'")
-	return True if power = 'AC Power' else False
+	return True if power == 'AC Power' else False
 
 def setVolume(vol, mut):
 	# restores Volume to input values (vol, mut as Strings)
@@ -54,7 +54,7 @@ def surveillance():
 	print('\nThefty started. Terminate with Ctrl-C.\n')
 
 	while True:
-		time.sleep(1.500)
+		time.sleep(.500)
 		if not isCharging(): soundAlarm()
 
 
